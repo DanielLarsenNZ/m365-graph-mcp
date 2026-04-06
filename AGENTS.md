@@ -3,7 +3,8 @@
 ## Testing requirements
 
 ### New features
-Every new tool or handler function must have accompanying tests before the code is committed.
+* Every new tool or handler function must have accompanying tests before the code is committed.
+* Every new feature must be documented, optionally with a brief description in `README.md`, and optionally with a technical summary in `/docs`
 
 ### Bug fixes
 Every bug fix must include a regression test that:
