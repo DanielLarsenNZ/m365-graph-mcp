@@ -29,3 +29,19 @@ Always run `npm test` and confirm all tests pass before creating a commit.
 - Default timezone is `Pacific/Auckland`
 - Auth uses MSAL device code flow; token cached at `TOKEN_CACHE_PATH`
 - Env vars: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `TOKEN_CACHE_PATH`
+
+## Mail — list_emails
+
+### Focused Inbox filtering (`inferenceClassification`)
+
+`list_emails` accepts an optional `inferenceClassification` parameter (`"focused"` | `"other"`) that maps to the Graph API property of the same name. Pass `"other"` to retrieve only the noise/clutter inbox; pass `"focused"` for signal only.
+
+The filter is merged with any caller-supplied `filter` expression via `buildMailFilter()` (exported from `src/tools/mail.ts`). This keeps OData composition in one place and makes it unit-testable without auth.
+
+```
+// Get unread "Other" emails only
+list_emails({ inferenceClassification: "other", filter: "isRead eq false" })
+// → $filter=isRead eq false and inferenceClassification eq 'other'
+```
+
+`inferenceClassification` is also included in the `.select()` projection so callers can inspect the value on returned messages even when not filtering by it.

@@ -11,6 +11,7 @@ export const mailTools = [
         top: { type: "number", description: "Max emails to return (default: 20, max: 50)", default: 20 },
         filter: { type: "string", description: "OData filter expression e.g. \"isRead eq false\"" },
         search: { type: "string", description: "Search query string" },
+        inferenceClassification: { type: "string", enum: ["focused", "other"], description: "Filter by Focused Inbox category: 'focused' or 'other'. Omit to return both." },
       },
     },
   },
@@ -100,6 +101,25 @@ function parseAddresses(addresses: string) {
   }));
 }
 
+/**
+ * Build an OData $filter string for list_emails.
+ * Merges an optional caller-supplied expression with an optional
+ * inferenceClassification clause so both can coexist.
+ *
+ * @param filter  Raw OData expression from the caller (may be undefined)
+ * @param inferenceClassification  "focused" | "other" | undefined
+ * @returns Combined filter string, or undefined when no filters are needed
+ */
+export function buildMailFilter(
+  filter: string | undefined,
+  inferenceClassification: string | undefined,
+): string | undefined {
+  const parts: string[] = [];
+  if (filter) parts.push(filter);
+  if (inferenceClassification) parts.push(`inferenceClassification eq '${inferenceClassification}'`);
+  return parts.length > 0 ? parts.join(" and ") : undefined;
+}
+
 export async function handleMailTool(name: string, args: Record<string, unknown>): Promise<string> {
   const client = getGraphClient();
 
@@ -110,9 +130,13 @@ export async function handleMailTool(name: string, args: Record<string, unknown>
       let req = client
         .api(`/me/mailFolders/${folder}/messages`)
         .top(top)
-        .select("id,subject,from,receivedDateTime,isRead,bodyPreview,hasAttachments")
+        .select("id,subject,from,receivedDateTime,isRead,bodyPreview,hasAttachments,inferenceClassification")
         .orderby("receivedDateTime DESC");
-      if (args.filter) req = req.filter(args.filter as string);
+      const combinedFilter = buildMailFilter(
+        args.filter as string | undefined,
+        args.inferenceClassification as string | undefined,
+      );
+      if (combinedFilter) req = req.filter(combinedFilter);
       if (args.search) req = req.query({ $search: `"${args.search}"` });
       const result = await req.get();
       return JSON.stringify(result.value, null, 2);
