@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "m365-graph": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["/absolute/path/to/m365-graph-mcp/dist/index.js"],
+      "env": {
+        "AZURE_CLIENT_ID": "your-client-id-here",
+        "AZURE_TENANT_ID": "your-tenant-id-here",
+        "TOKEN_CACHE_PATH": "/absolute/path/to/m365-graph-mcp/.token-cache.json"
+      }
+    }
+  }
+}

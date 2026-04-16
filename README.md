@@ -1,5 +1,7 @@
 # dan-m365-graph-mcp
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 A Model Context Protocol (MCP) server that exposes Microsoft 365 via the Graph API. Gives Claude (and other MCP clients) tools to read and manage your Outlook email, calendar events, and Microsoft Todo tasks.
 
 ## Features
@@ -63,7 +65,7 @@ npm run dev
 
 ### 6.a. Host in Claude Code (or another MCP client)
 
-Add the server to your `.mcp.json`:
+Copy `.mcp.json.example` to `.mcp.json` and fill in your values — **do not commit `.mcp.json`**, it is gitignored:
 
 ```json
 {
