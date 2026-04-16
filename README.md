@@ -1,4 +1,4 @@
-# dan-m365-graph-mcp
+# m365-graph-mcp
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
@@ -22,8 +22,8 @@ A Model Context Protocol (MCP) server that exposes Microsoft 365 via the Graph A
 ### 1. Clone and install
 
 ```bash
-git clone https://github.com/your-org/dan-m365-graph-mcp
-cd dan-m365-graph-mcp
+git clone https://github.com/DanielLarsenNZ/m365-graph-mcp.git
+cd m365-graph-mcp
 npm install
 ```
 
@@ -65,7 +65,7 @@ npm run dev
 
 ### 6.a. Host in Claude Code (or another MCP client)
 
-Copy `.mcp.json.example` to `.mcp.json` and fill in your values — **do not commit `.mcp.json`**, it is gitignored:
+Copy `.mcp.json.example` to `.mcp.json` and fill in your values:
 
 ```json
 {
@@ -73,7 +73,7 @@ Copy `.mcp.json.example` to `.mcp.json` and fill in your values — **do not com
     "m365-graph": {
       "type": "stdio",
       "command": "node",
-      "args": ["/absolute/path/to/dan-m365-graph-mcp/dist/index.js"],
+      "args": ["/absolute/path/to/m365-graph-mcp/dist/index.js"],
       "env": {
         "AZURE_CLIENT_ID": "your-client-id",
         "AZURE_TENANT_ID": "your-tenant-id",
@@ -84,7 +84,40 @@ Copy `.mcp.json.example` to `.mcp.json` and fill in your values — **do not com
 }
 ```
 
-### 6.b. Host
+Restart Claude Code CLI or Desktop App.
+
+### 6.b. Host in Claude Cowork (a bit hacky at time of writing)
+
+Edit `~/Library/Application Support/Claude/claude_desktop_config.json`
+
+```json
+{
+  "preferences": {
+    ...
+  },
+  "mcpServers": {
+    "m365-graph": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["/absolute/path/to/m365-graph-mcp/dist/index.js"],
+      "env": {
+        "AZURE_CLIENT_ID": "your-client-id",
+        "AZURE_TENANT_ID": "your-tenant-id",
+        "TOKEN_CACHE_PATH": "/absolute/path/to/.token-cache.json"
+      }
+    }
+  }
+}
+```
+
+Restart Claude Cowork Desktop App.
+
+### 6.c. Host as an MCP server
+
+```bash
+npm run start
+```
+
 
 ## Available Tools (24 total)
 
