@@ -37,7 +37,7 @@ Create a `.env` file in the project root (or set these as environment variables)
 
 ```env
 AZURE_CLIENT_ID=your-client-id-here
-AZURE_TENANT_ID=common          # or your specific tenant ID
+AZURE_TENANT_ID=your-tenant-ID
 TOKEN_CACHE_PATH=.token-cache.json
 ```
 
@@ -93,7 +93,7 @@ Edit `~/Library/Application Support/Claude/claude_desktop_config.json`
 ```json
 {
   "preferences": {
-    ...
+    //...
   },
   "mcpServers": {
     "m365-graph": {
