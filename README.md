@@ -27,10 +27,7 @@ npm install
 
 ### 2. Create an Azure app registration
 
-1. Go to [portal.azure.com](https://portal.azure.com) → **Azure Active Directory** → **App registrations** → **New registration**
-2. Choose **Public client / native** redirect URI: `https://login.microsoftonline.com/common/oauth2/nativeclient`
-3. Under **API permissions**, add the delegated MS Graph permissions listed above
-4. Copy the **Application (client) ID** and optionally the **Directory (tenant) ID**
+See [docs/azure-app-registration.md](docs/azure-app-registration.md) for a full step-by-step guide.
 
 ### 3. Configure environment
 
@@ -52,11 +49,10 @@ npm run auth
 
 Follow the on-screen prompt: visit the verification URL and enter the device code. The token is saved to `TOKEN_CACHE_PATH` and refreshed silently on subsequent uses.
 
-### 5. Build and run
+### 5. Build
 
 ```bash
 npm run build   # compile TypeScript → dist/
-npm start       # run the MCP server (stdio transport)
 ```
 
 For development without a build step:
@@ -65,7 +61,7 @@ For development without a build step:
 npm run dev
 ```
 
-### 6. Connect to Claude Code (or another MCP client)
+### 6.a. Host in Claude Code (or another MCP client)
 
 Add the server to your `.mcp.json`:
 
@@ -85,6 +81,8 @@ Add the server to your `.mcp.json`:
   }
 }
 ```
+
+### 6.b. Host
 
 ## Available Tools (24 total)
 
